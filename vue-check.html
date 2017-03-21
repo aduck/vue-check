@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>check</title>
+</head>
+<body>
+  <div id="root">
+    <form action="">
+      <table>
+        <tr>
+          <td>
+            <label for="checkAll">
+              <input type="checkbox" v-model="checkAll" id="checkAll" />全选({{checkedCounts}})
+            </label>            
+          </td>
+          <td>姓名</td>
+          <td>年龄</td>
+        </tr>
+        <tr v-for="user in users">
+          <td><input type="checkbox" name="user" :value="user.username" v-model="checked" /></td>
+          <td>{{user.username}}</td>
+          <td>{{user.age}}</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <script src="https://unpkg.com/vue@2.2.4/dist/vue.js"></script>
+  <script>
+    let users=[
+      {
+        "username":"aaa",
+        "age":25
+      },
+      {
+        "username":"bbb",
+        "age":24
+      }
+    ];
+
+    var vm=new Vue({
+      el:'#root',
+      data:{
+        users,
+        checked:[]
+      },
+      computed:{
+        checkedCounts(){
+          return this.checked.length
+        },
+        checkAll:{
+          get:function(){
+            return this.users.length==this.checked.length
+          },
+          set:function(val){
+            if(val){
+              this.checked=this.users.map(user=>{
+                return user.username
+              })
+            }else{
+              this.checked=[]
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
